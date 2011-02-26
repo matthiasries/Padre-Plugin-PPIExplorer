@@ -1,0 +1,16 @@
+=pod
+
+=head1 Padre::Plugin::PPIExplorer
+
+dumps code as PPI
+
+=head1 TODO
+
+* complet "dump in file"
+
+=head1 Wishlist
+
+* RegexEditor like evaluator for PPI
+* Tree style PPIwalker
+
+=cut
