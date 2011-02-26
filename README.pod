@@ -1,16 +1,60 @@
 =pod
 
-=head1 Padre::Plugin::PPIExplorer
+=head1 NAME
 
-dumps code as PPI
+Padre::Plugin::PPIExplorer
+
+
+=head1 DESCRIPTION
+
+PPI::Dump perl code to output
+
+=head1 VERSION
+
+version 0.1
+
+=head1 SYNOPSIS
+
+Simple plugin to run PPI::Dumper on your source code.
 
 =head1 TODO
 
-* complet "dump in file"
+=over 4
+
+=item *
+
+dump to file
+
+=back
 
 =head1 Wishlist
 
-* RegexEditor like evaluator for PPI
-* Tree style PPIwalker
+=over 4
+
+=item *
+
+RegexEditor like evaluator for PPI
+
+=item *
+Tree style PPIwalker
+
+=back
+
+=head1 AUTHORS
+
+=over 4
+
+=item *
+
+Matthias Ries
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2011 by Matthias Ries and others
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
