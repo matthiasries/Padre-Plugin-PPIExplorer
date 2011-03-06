@@ -35,7 +35,7 @@ sub menu_plugins_simple {
         Wx::gettext("Dump the selected text to the output") => \&dump_selection_to_output,
         Wx::gettext("Dump the active text to the output")   => \&dump_document_to_output,
         '---'                                               => undef,
-        Wx::gettext("Dump the selected text to new file") => \&dump_selection_to_newdoc,
+        Wx::gettext("Dump the selected text to new file")   => \&dump_selection_to_newdoc,
         Wx::gettext("Dump the active document to new file") => \&dump_document_to_newdoc,
     ];
 }
@@ -63,9 +63,7 @@ sub _dump {
 
     unless ( $document->isa('Padre::Document::Perl') ) {
         my $ret = Wx::MessageBox( "Document is not a Perl document. Should I try?", "Warn", 3, $main, );
-        unless ( $ret == 3 ) {
-            return TRUE;
-        }
+        return FALSE unless ( $ret == 3 );
     }
     require PPI;
     require PPI::Dumper;
@@ -99,21 +97,34 @@ sub _dump_to_output {
 }
 
 sub _dump_to_doc {
-    my $main = shift;
+    my $main       = shift;
     my $current    = shift;
     my $source     = shift;
     my $document   = $current->document;
     my $output_doc = _dump( $main, $current, $source );
-    my $filename = _get_filename($main);
+    my $filename   = _get_filename($main);
     return unless defined $filename;
     
     if ($output_doc) {
         $main->show_output(1);
-        open my $filehandle , '>',$filename  or ( $main->output->AppendText("Fehler beim offnen der Datei -$filename-\n"   .$@ )  and return FALSE);
-        print $filehandle $output_doc        or ( $main->output->AppendText("Fehler beim schreiben in Datei -$filename-\n" .$@ )  and return FALSE);
-        close $filehandle                    or ( $main->output->AppendText( "Fehler beim schließen der Datei -$filename-\n".$@ ) and return FALSE);
-        #$main->output->clear;
-        $main->output->AppendText("In Datei geschrieben!");
+        eval {
+            open  my $filehandle , '>',$filename;
+            print $filehandle $output_doc;
+            close $filehandle;
+        } or do {
+            if (@$){
+                $main->output->AppendText( "Can't write '$filename':" .$@ );
+                return FALSE;            
+            }
+        };
+        $main->output->AppendText("Write to file '$filename'\n");
+    
+        if ( $main->yes_no( Wx::gettext("Should I open the new file?"), Wx::gettext("Exist") ) )
+        {
+
+            
+        };
+        
     }
     return TRUE;
 
@@ -150,7 +161,6 @@ sub _get_filename {
 		}
 	}
 }
-
 
 #POD: dump the current selected text
 sub dump_selection_to_output {
