@@ -44,7 +44,7 @@ sub menu_plugins_simple {
 # description: print Error to output 
 sub _OnError {
     my $main = shift;
-    $main->output->AppendText( "PPIExplorer Error:\n" . $@ );
+    $main->output->AppendText( "PPIExplorer Error:\n" . @_ . $@ );
     return FALSE;
 }
 
@@ -121,8 +121,8 @@ sub _dump_to_doc {
     
         if ( $main->yes_no( Wx::gettext("Should I open the new file?"), Wx::gettext("Exist") ) )
         {
-
-            
+                _OnError($main,'Could not open file') and return FALSE if ! -e $filename;
+                $main->setup_editors($filename);            
         };
         
     }
