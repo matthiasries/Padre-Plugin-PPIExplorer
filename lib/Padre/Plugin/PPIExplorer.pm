@@ -1,7 +1,7 @@
 package Padre::Plugin::PPIExplorer;
 
 BEGIN {
-    $Padre::Plugin::PPIExplorer::VERSION = '0.1';
+    $Padre::Plugin::PPIExplorer::VERSION = '0.5';
 }
 
 use 5.008002;
